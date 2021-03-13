@@ -1,13 +1,16 @@
 import {
   AppBar,
   Button,
-  makeStyles,
+  withStyles,
   Toolbar,
   Typography,
 } from "@material-ui/core";
-import { Link as RouterLink } from "react-router-dom";
+import { Component } from "react";
+import { connect } from "react-redux";
+import { Link as RouterLink, withRouter } from "react-router-dom";
+import { logoutUser } from "../../actions/auth";
 
-const useStyles = makeStyles(() => ({
+const styles = (theme) => ({
   header: {
     backgroundColor: "#400CCC",
     paddingRight: "79px",
@@ -29,70 +32,131 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     justifyContent: "space-between",
   },
-}));
+});
 
-const headersData = [
-  {
-    label: "Login",
-    href: "/login",
-  },
-  {
-    label: "Register",
-    href: "/register",
-  },
-  {
-    label: "Leaderboard",
-    href: "/leaderboard",
-  },
-  {
-    label: "Trending Posts",
-    href: "/trending-posts",
-  },
-  {
-    label: "Log Out",
-    href: "/logout",
-  },
-];
+class Header extends Component {
+  constructor(props) {
+    super(props);
 
-const getMenuButtons = (menuButton) => {
-  return headersData.map(({ label, href }) => {
-    return (
+    this.state = {
+      email: "",
+      password: "",
+    };
+  }
+
+  headersData = [
+    {
+      label: "Leaderboard",
+      href: "/leaderboard",
+    },
+    {
+      label: "Trending Posts",
+      href: "/trending-posts",
+    },
+  ];
+
+  getOtherButtons = (menuButton) => {
+    return this.headersData.map(({ label, href }) => {
+      return (
+        <Button
+          {...{
+            key: label,
+            color: "inherit",
+            to: href,
+            className: menuButton,
+            component: RouterLink,
+          }}
+        >
+          {label}
+        </Button>
+      );
+    });
+  };
+
+  getGuestButtons = (menuButton) => {
+    return [
       <Button
         {...{
-          key: label,
+          key: "Login",
           color: "inherit",
-          to: href,
+          to: "/login",
           className: menuButton,
           component: RouterLink,
         }}
       >
-        {label}
-      </Button>
-    );
-  });
-};
+        Login
+      </Button>,
+      <Button
+        {...{
+          key: "Register",
+          color: "inherit",
+          to: "/register",
+          className: menuButton,
+          component: RouterLink,
+        }}
+      >
+        Register
+      </Button>,
+    ];
+  };
 
-export default function Header() {
-  const { header, logo, menuButton, toolbar } = useStyles();
-
-  const displayDesktop = () => {
+  getAuthenticatedButtons = (menuButton) => {
     return (
-      <Toolbar className={toolbar}>
-        {appLogo}
-        <div>{getMenuButtons(menuButton)}</div>
-      </Toolbar>
+      <Button
+        {...{
+          key: "Logout",
+          color: "inherit",
+          to: "/logout",
+          className: menuButton,
+          component: RouterLink,
+        }}
+        onClick={this.onLogout.bind(this)}
+      >
+        Logout
+      </Button>
     );
   };
 
-  const appLogo = (
-    <Typography variant="h6" component="h1" className={logo}>
-      Open Forum Social
-    </Typography>
-  );
+  onLogout = (e) => {
+    e.preventDefault();
+    this.props.logoutUser(this.props.history);
+  };
 
-  return (
-    <header>
-      <AppBar className={header}>{displayDesktop()}</AppBar>
-    </header>
-  );
+  render() {
+    const { classes } = this.props;
+
+    const displayDesktop = () => {
+      return (
+        <Toolbar className={classes.toolbar}>
+          {appLogo}
+          <div>
+            {!this.props.auth.isAuthenticated
+              ? this.getGuestButtons(classes.menuButton)
+              : this.getAuthenticatedButtons(classes.menuButton)}
+          </div>
+          <div>{this.getOtherButtons(classes.menuButton)}</div>
+        </Toolbar>
+      );
+    };
+
+    const appLogo = (
+      <Typography variant="h6" component="h1" className={classes.logo}>
+        Open Forum Social
+      </Typography>
+    );
+
+    return (
+      <header>
+        <AppBar className={classes.header}>{displayDesktop()}</AppBar>
+      </header>
+    );
+  }
 }
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { logoutUser })(
+  withStyles(styles)(withRouter(Header))
+);

@@ -5,11 +5,14 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import configureStore from "./store/index";
+import store from "./store/index";
+import axiosSetup from "./utils/axiosSetup";
 
-const store = ReactDOM.render(
+axiosSetup();
+
+ReactDOM.render(
   <React.StrictMode>
-    <Provider store={configureStore()}>
+    <Provider store={store}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
