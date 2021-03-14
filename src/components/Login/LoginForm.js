@@ -50,11 +50,20 @@ const styles = (theme) => ({
   },
 });
 
+const checkIfRouterMessageExists = (router) => {
+  if (router && router.message) {
+    return true;
+  }
+  return false;
+};
+
 const StyledLoginForm = (props) => {
   const { classes, onInputChange, onFormSubmit, isLoading } = props;
+
   return (
     <main className={classes.main}>
       <CssBaseline />
+      <div>{checkIfRouterMessageExists(props.routerMessage)}</div>
       <Paper className={classes.paper}>
         {isLoading ? (
           "<CircularProgressIcon />"

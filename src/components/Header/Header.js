@@ -37,11 +37,6 @@ const styles = (theme) => ({
 class Header extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      email: "",
-      password: "",
-    };
   }
 
   headersData = [
@@ -51,7 +46,7 @@ class Header extends Component {
     },
     {
       label: "Trending Posts",
-      href: "/trending-posts",
+      href: "/trending",
     },
   ];
 

@@ -53,6 +53,7 @@ class Login extends Component {
   render() {
     return (
       <LoginForm
+        routerMessage={this.props.location.state}
         onInputChange={this.handleInputChange}
         onFormSubmit={this.handleSubmit}
         loginFailed={this.props.loginFailed}

@@ -4,7 +4,7 @@ import { Component } from "react";
 import CreatePostCard from "../../components/CreatePost/CreatePostCard";
 import axios from "axios";
 
-export class CreatePost extends Component {
+class CreatePost extends Component {
   constructor(props) {
     super(props);
 
@@ -24,10 +24,10 @@ export class CreatePost extends Component {
   createPost = () => {
     let postData = new FormData();
     postData.append("title", this.state.title);
-    postData.append("description", this.state.description);
+    postData.append("text", this.state.description);
     postData.append("photo", this.state.photo);
     if (this.props.auth.isAuthenticated) {
-      const url = "api/posts/new/" + this.props.auth.user.id;
+      const url = "api/posts/new/" + this.props.auth.user._id;
       axios
         .post(url, postData)
         .then((res) => console.log("published success"))

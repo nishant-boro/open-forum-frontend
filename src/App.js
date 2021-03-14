@@ -7,7 +7,8 @@ import Login from "./pages/Login/Login";
 import setAuthToken from "./utils/setAuthToken";
 import jwtDecode from "jwt-decode";
 import { setCurrentUser, logoutUser } from "./actions/auth";
-import { CreatePost } from "./pages/CreatePost/CreatePost";
+import CreatePost from "./pages/CreatePost/CreatePost";
+import TrendingPosts from "./pages/TrendingPosts/TrendingPosts";
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
@@ -37,6 +38,10 @@ function App() {
 
           <Route path="/create-post">
             <CreatePost />
+          </Route>
+
+          <Route path="/trending">
+            <TrendingPosts />
           </Route>
         </Switch>
       </div>

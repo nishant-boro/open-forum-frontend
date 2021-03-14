@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Component } from "react";
 import { registerUser } from "../../actions/auth";
 
-export class Registration extends Component {
+class Registration extends Component {
   constructor(props) {
     super(props);
 
