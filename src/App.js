@@ -7,6 +7,7 @@ import Login from "./pages/Login/Login";
 import setAuthToken from "./utils/setAuthToken";
 import jwtDecode from "jwt-decode";
 import { setCurrentUser, logoutUser } from "./actions/auth";
+import { CreatePost } from "./pages/CreatePost/CreatePost";
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
@@ -24,17 +25,21 @@ function App() {
   return (
     <div>
       <Header></Header>
-      <Switch>
-        <Route path="/login">
-          <Login />
-        </Route>
+      <div style={{ marginTop: 80 }}>
+        <Switch>
+          <Route path="/login">
+            <Login />
+          </Route>
 
-        <Route path="/register">
-          <Registration />
-        </Route>
+          <Route path="/register">
+            <Registration />
+          </Route>
 
-        <Route path="/">{/* <Trending /> */}</Route>
-      </Switch>
+          <Route path="/create-post">
+            <CreatePost />
+          </Route>
+        </Switch>
+      </div>
     </div>
   );
 }

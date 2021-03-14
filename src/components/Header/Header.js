@@ -101,7 +101,7 @@ class Header extends Component {
   };
 
   getAuthenticatedButtons = (menuButton) => {
-    return (
+    return [
       <Button
         {...{
           key: "Logout",
@@ -113,8 +113,19 @@ class Header extends Component {
         onClick={this.onLogout.bind(this)}
       >
         Logout
-      </Button>
-    );
+      </Button>,
+      <Button
+        {...{
+          key: "Create Post",
+          color: "inherit",
+          to: "/create-post",
+          className: menuButton,
+          component: RouterLink,
+        }}
+      >
+        Create Post
+      </Button>,
+    ];
   };
 
   onLogout = (e) => {
