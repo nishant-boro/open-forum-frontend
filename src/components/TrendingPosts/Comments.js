@@ -2,38 +2,40 @@ import React, { useState } from "react";
 import CardHeader from "@material-ui/core/CardHeader";
 import TextField from "@material-ui/core/TextField";
 import Avatar from "@material-ui/core/Avatar";
-import Icon from "@material-ui/core/Icon";
+import DeleteIcon from "@material-ui/icons/Delete";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, rgbToHex } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { Divider, Grid, Paper } from "@material-ui/core";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import { IconButton } from "material-ui";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import Comment from "./Comment";
 
 const useStyles = makeStyles((theme) => ({
   cardHeader: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
   },
+  commentField: {
+    width: "96%",
+  },
   smallAvatar: {
     width: 25,
     height: 25,
   },
-  commentField: {
-    width: "96%",
-  },
+
   commentText: {
-    backgroundColor: "white",
-    padding: theme.spacing(1),
-    margin: `2px ${theme.spacing(2)}px 2px 2px`,
+    padding: "1px",
   },
-  commentDate: {
-    display: "block",
-    color: "gray",
-    fontSize: "0.8em",
+
+  alongComment: {
+    marginLeft: "5px",
+    padding: "1px",
   },
-  commentDelete: {
-    fontSize: "1.6em",
-    verticalAlign: "middle",
-    cursor: "pointer",
+  button: {
+    margin: theme.spacing(1),
   },
 }));
 
@@ -63,37 +65,6 @@ export default function Comments(props) {
     }
   };
 
-  const deleteComment = () => {
-    const userDetails = props.auth.user;
-    axios
-      .put("/api/posts/uncomment", {
-        userId: userDetails._id,
-        postId: props.postId,
-        comment: text,
-      })
-      .then((res) => {
-        props.updateComments(res.data.comments);
-      });
-  };
-
-  const commentBody = (item) => {
-    return (
-      <p className={classes.commentText}>
-        <Link to={"/user/" + item.postedBy}>{item.username}</Link>
-        <br />
-        {item.text}
-        <span className={classes.commentDate}>
-          {new Date(item.created).toDateString()} |
-          {props.auth.isAuthenticated && props.auth.user._id === item.postedBy && (
-            <Icon onClick={deleteComment} className={classes.commentDelete}>
-              delete
-            </Icon>
-          )}
-        </span>
-      </p>
-    );
-  };
-
   return (
     <div>
       <CardHeader
@@ -113,18 +84,14 @@ export default function Comments(props) {
         }
         className={classes.cardHeader}
       />
+
       {props.comments.map((item, i) => {
         return (
-          <CardHeader
-            // avatar={d
-            //   <Avatar
-            //     className={classes.smallAvatar}
-            //     src={"/api/users/photo/" + item.postedBy._id}
-            //   />
-            // }
-            title={commentBody(item)}
-            className={classes.cardHeader}
-            key={i}
+          <Comment
+            updateComments={props.updateComments}
+            auth={props.auth}
+            postId={props.postId}
+            comment={item}
           />
         );
       })}

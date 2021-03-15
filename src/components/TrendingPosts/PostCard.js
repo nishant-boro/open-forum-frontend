@@ -124,6 +124,12 @@ export default function PostCard(props) {
     });
   };
 
+  const formatDate = (date) => {
+    const formattedDate = new Date(date).toDateString();
+    const splittedDate = formattedDate.split(" ");
+    return splittedDate[1] + " " + splittedDate[2] + ", " + splittedDate[3];
+  };
+
   return (
     <Card className={classes.card}>
       <CardHeader
@@ -139,13 +145,22 @@ export default function PostCard(props) {
             ""
           )
         }
-        title={
-          <Link to={"/user/" + props.post.postedBy}>{props.post.username}</Link>
+        title={props.post.title}
+        subheader={
+          <div>
+            <div>
+              Author:{" "}
+              <Link to={"/user/" + props.post._id}>{props.post.username}</Link>
+            </div>
+            <div>
+              posted on{" "}
+              {formatDate(new Date(props.post.created).toDateString())}
+            </div>
+          </div>
         }
-        subheader={new Date(props.post.created).toDateString()}
         className={classes.cardHeader}
       />
-      <CardContent className={classes.cardContent}>
+      <CardContent style={{ paddingBottom: 0 }} className={classes.cardContent}>
         <Typography component="p" className={classes.text}>
           {props.post.text}
         </Typography>
@@ -158,6 +173,7 @@ export default function PostCard(props) {
           </div>
         )}
       </CardContent>
+      <Divider />
       <CardActions>
         {state.userLikedPost ? (
           <IconButton
@@ -177,7 +193,7 @@ export default function PostCard(props) {
           >
             <FavoriteBorderIcon />
           </IconButton>
-        )}{" "}
+        )}
         <span>{state.likes}</span>
         <IconButton
           className={classes.button}
@@ -194,6 +210,7 @@ export default function PostCard(props) {
         auth={props.auth}
         comments={state.comments}
         updateComments={updateComments}
+        redirectIfGuestUser={redirectIfGuestUser}
       />
     </Card>
   );

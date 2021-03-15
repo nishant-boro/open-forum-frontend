@@ -38,7 +38,9 @@ class TrendingPosts extends Component {
     axios
       .get("/trendingposts")
       .then((res) => {
-        return this.setState({ posts: res.data });
+        return this.setState({
+          posts: Array.isArray(res.data) ? res.data : [],
+        });
       })
       .catch((err) => {
         console.log(err);
