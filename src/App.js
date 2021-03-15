@@ -9,6 +9,7 @@ import jwtDecode from "jwt-decode";
 import { setCurrentUser, logoutUser } from "./actions/auth";
 import CreatePost from "./pages/CreatePost/CreatePost";
 import TrendingPosts from "./pages/TrendingPosts/TrendingPosts";
+import Leaderboard from "./pages/Leaderboard/Leaderboard";
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
@@ -42,6 +43,10 @@ function App() {
 
           <Route path="/trending">
             <TrendingPosts />
+          </Route>
+
+          <Route path="/leaderboard">
+            <Leaderboard />
           </Route>
         </Switch>
       </div>
