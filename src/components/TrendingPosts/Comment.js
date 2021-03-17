@@ -117,7 +117,7 @@ export default function Comment(props) {
         <Grid item>
           <Avatar
             alt="Remy Sharp"
-            src={`data:image/jpeg;base64, ${state.image}`}
+            src={`data:image/jpeg;base64, state.image`}
           />
         </Grid>
         <Grid style={{ justifyContent: "left" }} item xs zeroMinWidth>
