@@ -36,7 +36,7 @@
   "scripts": {
     "heroku-prebuild": "npm install --dev",
     "start": "node index.js",
-    "build": "webpack --config webpack.prod.js",
+    "build": "webpack --config webpack.prod.js"
   },
   "eslintConfig": {
     "extends": [
