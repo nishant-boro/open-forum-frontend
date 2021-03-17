@@ -35,9 +35,8 @@
   },
   "scripts": {
     "heroku-prebuild": "npm install --dev",
-    "start": "webpack serve",
+    "start": "node index.js",
     "build": "webpack --config webpack.prod.js",
-    "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {
     "extends": [
