@@ -10,6 +10,7 @@ import {
 import Avatar from "@material-ui/core/Avatar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import LockIcon from "@material-ui/icons/LockOutlined";
+
 // import { CircularProgressIcon } from "../../common/ProgressIcon/CircularIcon";
 
 const styles = (theme) => ({
@@ -81,7 +82,7 @@ const StyledRegisterForm = (props) => {
         </Typography>
         <form className={classes.form} onSubmit={onFormSubmit}>
           <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="firstname">Full Name</InputLabel>
+            <InputLabel htmlFor="name">Full Name</InputLabel>
             <Input
               id="name"
               name="name"
@@ -97,6 +98,26 @@ const StyledRegisterForm = (props) => {
               id="email"
               name="email"
               autoComplete="email"
+              onChange={onInputChange}
+            />
+          </FormControl>
+
+          <FormControl margin="normal" required fullWidth>
+            <InputLabel htmlFor="dob">Date of Birth</InputLabel>
+            <Input
+              id="dob"
+              name="dob"
+              autoComplete="date of birth"
+              onChange={onInputChange}
+            />
+          </FormControl>
+
+          <FormControl margin="normal" required fullWidth>
+            <InputLabel htmlFor="country">Country</InputLabel>
+            <Input
+              id="country"
+              name="country"
+              autoComplete="country"
               onChange={onInputChange}
             />
           </FormControl>

@@ -12,6 +12,8 @@ class Registration extends Component {
       name: "",
       email: "",
       password: "",
+      dob: "",
+      country: "",
       passwordRepeatedCorrectly: null,
     };
 
@@ -27,10 +29,13 @@ class Registration extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
+
     const user = {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
+      dob: this.state.dob,
+      country: this.state.country,
     };
     this.props.registerUser(user, this.props.history);
   }
@@ -66,6 +71,7 @@ class Registration extends Component {
   render() {
     return (
       <RegisterForm
+        image={this.state.photo}
         onPasswordRepeatChange={this.handleOnPasswordRepeatChange}
         onInputChange={this.handleInputChange}
         onFormSubmit={this.handleSubmit}

@@ -10,9 +10,44 @@ import {
 import Avatar from "@material-ui/core/Avatar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import LockIcon from "@material-ui/icons/LockOutlined";
+import Divider from "@material-ui/core/Divider";
 // import { CircularProgressIcon } from "../../common/ProgressIcon/CircularIcon";
 
 const styles = (theme) => ({
+  googleBtn: {
+    width: "250px",
+    cursor: "pointer",
+    height: "42px",
+    margin: "10px auto",
+    backgroundColor: "#4285f4",
+    borderRadius: "2px",
+    boxShadow: "0 3px 4px 0 rgba(0,0,0,.25)",
+  },
+  googleIconWrapper: {
+    position: "absolute",
+    marginTop: "1px",
+    marginLeft: "1px",
+    width: "40px",
+    height: "40px",
+    borderRadius: "2px",
+    backgroundColor: "#fff",
+  },
+  googleIcon: {
+    position: "absolute",
+    marginTop: "11px",
+    marginLeft: "11px",
+    width: "18px",
+    height: "18px",
+  },
+  btnText: {
+    position: "relative",
+    top: "8px",
+    left: "60px",
+    color: "#fff",
+    fontSize: "18px",
+    letterSpacing: "0.2px",
+    fontFamily: "Roboto",
+  },
   main: {
     width: "auto",
     display: "block",
@@ -58,7 +93,13 @@ const checkIfRouterMessageExists = (router) => {
 };
 
 const StyledLoginForm = (props) => {
-  const { classes, onInputChange, onFormSubmit, isLoading } = props;
+  const {
+    classes,
+    onInputChange,
+    onFormSubmit,
+    isLoading,
+    handleGoogleLogin,
+  } = props;
 
   return (
     <main className={classes.main}>
@@ -107,6 +148,20 @@ const StyledLoginForm = (props) => {
           >
             Sign in
           </Button>
+
+          <h2 style={{ textAlign: "center" }}>OR</h2>
+
+          <div onClick={handleGoogleLogin} className={classes.googleBtn}>
+            <div className={classes.googleIconWrapper}>
+              <img
+                className={classes.googleIcon}
+                src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+              />
+            </div>
+            <p className={classes.btnText}>
+              <b>Sign in with google</b>
+            </p>
+          </div>
         </form>
       </Paper>
     </main>

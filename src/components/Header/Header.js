@@ -120,6 +120,17 @@ class Header extends Component {
       >
         Create Post
       </Button>,
+      <Button
+        {...{
+          key: "My profile",
+          color: "inherit",
+          to: "/user-profile",
+          className: menuButton,
+          component: RouterLink,
+        }}
+      >
+        User Profile
+      </Button>,
     ];
   };
 

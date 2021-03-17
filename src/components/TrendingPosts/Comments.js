@@ -2,15 +2,8 @@ import React, { useState } from "react";
 import CardHeader from "@material-ui/core/CardHeader";
 import TextField from "@material-ui/core/TextField";
 import Avatar from "@material-ui/core/Avatar";
-import DeleteIcon from "@material-ui/icons/Delete";
-import PropTypes from "prop-types";
 import { makeStyles, rgbToHex } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
 import axios from "axios";
-import { Divider, Grid, Paper } from "@material-ui/core";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import { IconButton } from "material-ui";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import Comment from "./Comment";
 
 const useStyles = makeStyles((theme) => ({
