@@ -6,14 +6,14 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const port = process.env.PORT || 3000;
 
 module.exports = {
-  mode: "development",
+  mode: "production",
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.[hash].js",
     publicPath: "/",
   },
-  devtool: "inline-source-map",
+  devtool: "source-map",
   module: {
     rules: [
       {
@@ -48,14 +48,6 @@ module.exports = {
       React: "react",
     }),
   ],
-  devServer: {
-    contentBase: "./src",
-    watchContentBase: true,
-    host: "localhost",
-    port: port,
-    historyApiFallback: true,
-    open: true,
-  },
   resolve: {
     extensions: [".js", ".jsx", ".css", ".ts", ".d.ts"],
     modules: ["node_modules"],
