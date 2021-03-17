@@ -150,7 +150,9 @@ export default function PostCard(props) {
           <div>
             <div>
               Author:{" "}
-              <Link to={"/user/" + props.post._id}>{props.post.username}</Link>
+              <Link to={"/user/" + props.post.postedBy._id}>
+                {props.post.username}
+              </Link>
             </div>
             <div>
               posted on{" "}

@@ -11,6 +11,7 @@ import CreatePost from "./pages/CreatePost/CreatePost";
 import TrendingPosts from "./pages/TrendingPosts/TrendingPosts";
 import Leaderboard from "./pages/Leaderboard/Leaderboard";
 import UserProfile from "./pages/UserProfile/UserProfile";
+import PageNotFound from "./pages/Error/PageNotFound";
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
@@ -30,6 +31,10 @@ function App() {
       <Header></Header>
       <div style={{ marginTop: 80 }}>
         <Switch>
+          <Route path="/login/:token">
+            <Login />
+          </Route>
+
           <Route path="/login">
             <Login />
           </Route>
@@ -50,9 +55,11 @@ function App() {
             <Leaderboard />
           </Route>
 
-          <Route path="/user-profile">
+          <Route path="/user/:id">
             <UserProfile />
           </Route>
+
+          <Route component={PageNotFound} />
         </Switch>
       </div>
     </div>

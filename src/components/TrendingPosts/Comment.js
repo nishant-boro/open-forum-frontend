@@ -10,6 +10,7 @@ import { Divider, Grid, Paper } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import { Buffer } from "buffer";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -47,7 +48,24 @@ export default function Comment(props) {
 
   const [state, setState] = useState({
     userLikedComment: props.auth.isAuthenticated && checkIfUserLikedComment(),
+    image: "",
   });
+
+  const fetchImage = () => {
+    const userId = props.comment.postedBy._id;
+    const avatarUrl = "/api/users/photo/" + userId;
+
+    axios
+      .get(avatarUrl, {
+        responseType: "arraybuffer",
+      })
+      .then((res) => {
+        const output = Buffer.from(res.data, "binary").toString("base64");
+        setState({ ...state, image: output });
+      });
+  };
+
+  fetchImage();
 
   const deleteComment = () => {
     if (!props.redirectIfGuestUser) {
@@ -99,7 +117,7 @@ export default function Comment(props) {
         <Grid item>
           <Avatar
             alt="Remy Sharp"
-            src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
+            src={`data:image/jpeg;base64, ${state.image}`}
           />
         </Grid>
         <Grid style={{ justifyContent: "left" }} item xs zeroMinWidth>

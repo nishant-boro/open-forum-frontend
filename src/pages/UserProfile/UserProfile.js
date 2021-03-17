@@ -1,4 +1,3 @@
-import { withStyles } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Component } from "react";
@@ -13,13 +12,14 @@ class UserProfile extends Component {
     this.state = {
       data: {},
       image: "",
+      userId: this.props.match.params.id,
     };
 
     this.fetchImage = this.fetchImage.bind(this);
   }
 
   fetchImage() {
-    const userId = this.props.auth.user._id;
+    const userId = this.state.userId;
     const avatarUrl = "/api/users/photo/" + userId;
 
     axios
@@ -33,9 +33,11 @@ class UserProfile extends Component {
   }
 
   componentDidMount() {
-    const userId = this.props.auth.user._id;
+    if (!this.props.auth.isAuthenticated) {
+      this.props.history.push("/login");
+    }
 
-    axios.get("/api/users/" + userId).then((res) => {
+    axios.get("/api/users/" + this.state.userId).then((res) => {
       this.setState({ data: res.data });
     });
 
@@ -43,8 +45,6 @@ class UserProfile extends Component {
   }
 
   render() {
-    const { classes } = this.props;
-
     return (
       <UserDetails
         fetchImage={this.fetchImage}

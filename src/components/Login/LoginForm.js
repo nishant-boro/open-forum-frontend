@@ -10,7 +10,9 @@ import {
 import Avatar from "@material-ui/core/Avatar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import LockIcon from "@material-ui/icons/LockOutlined";
-import Divider from "@material-ui/core/Divider";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+
 // import { CircularProgressIcon } from "../../common/ProgressIcon/CircularIcon";
 
 const styles = (theme) => ({
@@ -85,6 +87,10 @@ const styles = (theme) => ({
   },
 });
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const checkIfRouterMessageExists = (router) => {
   if (router && router.message) {
     return true;
@@ -104,7 +110,19 @@ const StyledLoginForm = (props) => {
   return (
     <main className={classes.main}>
       <CssBaseline />
-      <div>{checkIfRouterMessageExists(props.routerMessage)}</div>
+      <Snackbar
+        style={{ height: "120%" }}
+        anchorOrigin={{
+          vertical: "center",
+          horizontal: "center",
+        }}
+        open={checkIfRouterMessageExists(props.routerMessage)}
+        autoHideDuration={6000}
+      >
+        <Alert severity="error">
+          {props.routerMessage ? props.routerMessage.message : ""}
+        </Alert>
+      </Snackbar>
       <Paper className={classes.paper}>
         {isLoading ? (
           "<CircularProgressIcon />"

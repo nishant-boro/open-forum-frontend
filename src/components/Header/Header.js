@@ -124,7 +124,7 @@ class Header extends Component {
         {...{
           key: "My profile",
           color: "inherit",
-          to: "/user-profile",
+          to: `/user/${this.props.auth.user._id}`,
           className: menuButton,
           component: RouterLink,
         }}

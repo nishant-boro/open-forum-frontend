@@ -6,6 +6,9 @@ import axios from "axios";
 import Card from "@material-ui/core/Card";
 import { Typography } from "@material-ui/core";
 import PostCard from "../../components/TrendingPosts/PostCard";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const styles = (theme) => ({
   card: {
@@ -14,16 +17,21 @@ const styles = (theme) => ({
     paddingBottom: theme.spacing(3),
   },
   title: {
-    padding: `${theme.spacing(3)}px ${theme.spacing(2.5)}px ${theme.spacing(
-      2
-    )}px`,
+    marginTop: "10px",
     color: theme.palette.openTitle,
-    fontSize: "1em",
+    textAlign: "center",
   },
   media: {
     minHeight: 330,
   },
+  circular: {
+    margin: "10% 50%",
+  },
 });
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 class TrendingPosts extends Component {
   constructor(props) {
@@ -31,14 +39,17 @@ class TrendingPosts extends Component {
 
     this.state = {
       posts: [],
+      loading: false,
     };
   }
 
   componentDidMount() {
+    this.setState({ loading: true });
     axios
       .get("/trendingposts")
       .then((res) => {
-        return this.setState({
+        this.setState({
+          loading: false,
           posts: Array.isArray(res.data) ? res.data : [],
         });
       })
@@ -52,9 +63,25 @@ class TrendingPosts extends Component {
 
     return (
       <Card className={classes.card}>
-        <Typography variant="subtitle1" className={classes.title}>
+        <Typography variant="h4" className={classes.title}>
           Trending Posts
         </Typography>
+        <Snackbar
+          style={{ height: "60%" }}
+          anchorOrigin={{
+            vertical: "center",
+            horizontal: "center",
+          }}
+          open={!this.state.loading && this.state.posts.length === 0}
+          autoHideDuration={6000}
+        >
+          <Alert severity="info">No posts found!</Alert>
+        </Snackbar>
+        {this.state.loading ? (
+          <CircularProgress className={classes.circular} />
+        ) : (
+          ""
+        )}
         <div style={{ marginTop: "24px" }}>
           {this.state.posts &&
             this.state.posts.map((item, i) => {

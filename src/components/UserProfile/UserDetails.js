@@ -54,7 +54,6 @@ export default function UserDetails(props) {
       form.append("photo", file);
 
       axios.put("/api/users/" + props.data._id, form).then((res) => {
-        console.log("user details");
         props.fetchImage();
       });
     };

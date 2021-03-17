@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import LoginForm from "../../components/Login/LoginForm";
 import { withRouter } from "react-router-dom";
-
+import setAuthToken from "../../utils/setAuthToken";
 import { connect } from "react-redux";
-import { loginUser, loginUserGoogle } from "../../actions/auth";
+import { loginUser, loginUserGoogle, setCurrentUser } from "../../actions/auth";
+import jwt_decode from "jwt-decode";
 
 class Login extends Component {
   constructor(props) {
@@ -39,6 +40,15 @@ class Login extends Component {
   }
 
   componentDidMount() {
+    if (this.props.location.search) {
+      const token = new URLSearchParams(this.props.location.search).get(
+        "token"
+      );
+      localStorage.setItem("jwtToken", token);
+      setAuthToken(token);
+      const user = jwt_decode(token);
+      this.props.setCurrentUser(user);
+    }
     if (this.props.auth.isAuthenticated) {
       this.props.history.push("/");
     }
@@ -76,6 +86,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   loginUser: loginUser,
   loginUserGoogle: loginUserGoogle,
+  setCurrentUser: setCurrentUser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));
