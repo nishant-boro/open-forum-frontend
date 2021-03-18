@@ -111,12 +111,13 @@ const StyledLoginForm = (props) => {
     <main className={classes.main}>
       <CssBaseline />
       <Snackbar
-        style={{ height: "120%" }}
+        style={{ marginBottom: "15%" }}
         anchorOrigin={{
-          vertical: "center",
+          vertical: "bottom",
           horizontal: "center",
         }}
         open={checkIfRouterMessageExists(props.routerMessage)}
+        close={true}
         autoHideDuration={6000}
       >
         <Alert severity="error">

@@ -49,7 +49,7 @@ export default function Comment(props) {
   });
 
   const deleteComment = () => {
-    if (!props.redirectIfGuestUser) {
+    if (!props.redirectIfGuestUser()) {
       const userDetails = props.auth.user;
 
       axios
@@ -65,10 +65,9 @@ export default function Comment(props) {
   };
 
   const likeUnlikeComment = (isLike) => {
-    if (!props.redirectIfGuestUser) {
+    if (!props.redirectIfGuestUser()) {
       const userDetails = props.auth.user;
       const url = isLike ? "api/post/likeacomment" : "/api/post/unlikeacomment";
-      console.log(url);
 
       axios
         .put(url, {

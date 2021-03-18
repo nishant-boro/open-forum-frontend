@@ -81,6 +81,7 @@ export default function Comments(props) {
       {props.comments.map((item, i) => {
         return (
           <Comment
+            redirectIfGuestUser={props.redirectIfGuestUser}
             updateComments={props.updateComments}
             auth={props.auth}
             postId={props.postId}
