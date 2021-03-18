@@ -68,7 +68,6 @@ export default function Comment(props) {
     if (!props.redirectIfGuestUser) {
       const userDetails = props.auth.user;
       const url = isLike ? "api/post/likeacomment" : "/api/post/unlikeacomment";
-      console.log(url);
 
       axios
         .put(url, {

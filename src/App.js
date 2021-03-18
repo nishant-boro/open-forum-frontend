@@ -59,6 +59,10 @@ function App() {
             <UserProfile />
           </Route>
 
+          <Route path="/">
+            <TrendingPosts />
+          </Route>
+
           <Route component={PageNotFound} />
         </Switch>
       </div>
