@@ -52,9 +52,11 @@ export default function UserDetails(props) {
 
       var form = new FormData();
       form.append("photo", file);
+      form.append("name", props.data.name);
+      form.append("email", props.data.email);
 
       axios.put("/api/users/" + props.data._id, form).then((res) => {
-        props.fetchImage();
+        console.log(res.data);
       });
     };
     inputElement.click();
@@ -71,7 +73,7 @@ export default function UserDetails(props) {
         />
         <IconButton style={{ maxWidth: 400 }} onClick={selectAndUpload}>
           <Avatar
-            src={`data:image/jpeg;base64, ${props.image}`}
+            src={props.data.photo}
             style={{
               margin: "10px",
               width: "200px",

@@ -29,7 +29,7 @@ function App() {
   return (
     <div>
       <Header></Header>
-      <div style={{ marginTop: 80 }}>
+      <div style={{ marginTop: 64 }}>
         <Switch>
           <Route path="/login/:token">
             <Login />

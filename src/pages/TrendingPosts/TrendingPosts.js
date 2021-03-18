@@ -3,7 +3,6 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Component } from "react";
 import axios from "axios";
-import Card from "@material-ui/core/Card";
 import { Typography } from "@material-ui/core";
 import PostCard from "../../components/TrendingPosts/PostCard";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -11,11 +10,6 @@ import MuiAlert from "@material-ui/lab/Alert";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const styles = (theme) => ({
-  card: {
-    margin: "auto",
-    paddingTop: 0,
-    paddingBottom: theme.spacing(3),
-  },
   title: {
     marginTop: "10px",
     color: theme.palette.openTitle,
@@ -62,7 +56,7 @@ class TrendingPosts extends Component {
     const { classes } = this.props;
 
     return (
-      <Card className={classes.card}>
+      <div>
         <Typography variant="h4" className={classes.title}>
           Trending Posts
         </Typography>
@@ -95,7 +89,7 @@ class TrendingPosts extends Component {
               );
             })}
         </div>
-      </Card>
+      </div>
     );
   }
 }

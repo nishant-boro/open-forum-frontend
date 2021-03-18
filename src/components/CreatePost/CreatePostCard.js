@@ -9,14 +9,14 @@ import PhotoCamera from "@material-ui/icons/PhotoCamera";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: "#efefef",
     padding: `${theme.spacing(3)}px 0px 1px`,
   },
   card: {
     maxWidth: 600,
+    marginTop: "50px",
     margin: "auto",
     marginBottom: theme.spacing(3),
-    backgroundColor: "rgba(65, 150, 136, 0.09)",
+    backgroundColor: "#d3e0ed",
     boxShadow: "none",
   },
   cardContent: {
@@ -51,15 +51,15 @@ const useStyles = makeStyles((theme) => ({
 export default function CreatePostCard(props) {
   const classes = useStyles();
 
-  const { handleChange, photo, error, title, description, createPost } = props;
+  const { handleChange, photo, title, description, createPost } = props;
 
   return (
     <div className={classes.root}>
       <Card className={classes.card}>
         <TextField
           placeholder="Enter the title"
+          value={title}
           rows="1"
-          // value={values.text}
           onChange={handleChange("title")}
           className={classes.textField}
           margin="normal"
@@ -70,7 +70,7 @@ export default function CreatePostCard(props) {
             placeholder="Share your thoughts ..."
             multiline
             rows="3"
-            // value={values.text}
+            value={description}
             onChange={handleChange("description")}
             className={classes.textField}
             margin="normal"
@@ -92,14 +92,6 @@ export default function CreatePostCard(props) {
             </IconButton>
           </label>{" "}
           <span className={classes.filename}>{photo ? photo.name : ""}</span>
-          {/* {error && (
-            // <Typography component="p" color="error">
-            //   <Icon color="error" className={classes.error}>
-            //     error
-            //   </Icon>
-            //   {error}
-            // </Typography>
-          )} */}
         </CardContent>
         <CardActions>
           <Button
