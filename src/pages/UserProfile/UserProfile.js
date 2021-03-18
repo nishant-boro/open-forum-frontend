@@ -11,25 +11,17 @@ class UserProfile extends Component {
 
     this.state = {
       data: {},
-      image: "",
       userId: this.props.match.params.id,
     };
 
-    this.fetchImage = this.fetchImage.bind(this);
+    this.updateDataImage = this.updateDataImage.bind(this);
   }
 
-  fetchImage() {
-    const userId = this.state.userId;
-    const avatarUrl = "/api/users/photo/" + userId;
+  updateDataImage(location) {
+    const currData = this.state.data;
 
-    axios
-      .get(avatarUrl, {
-        responseType: "arraybuffer",
-      })
-      .then((res) => {
-        const output = Buffer.from(res.data, "binary").toString("base64");
-        this.setState({ image: output });
-      });
+    currData["photo"] = location;
+    this.setState({ data: currData });
   }
 
   componentDidMount() {
@@ -40,15 +32,12 @@ class UserProfile extends Component {
     axios.get("/api/users/" + this.state.userId).then((res) => {
       this.setState({ data: res.data });
     });
-
-    this.fetchImage();
   }
 
   render() {
     return (
       <UserDetails
-        fetchImage={this.fetchImage}
-        image={this.state.image}
+        updateImage={this.updateDataImage}
         data={this.state.data}
       ></UserDetails>
     );

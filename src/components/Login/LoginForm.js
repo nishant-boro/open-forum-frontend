@@ -13,8 +13,6 @@ import LockIcon from "@material-ui/icons/LockOutlined";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 
-// import { CircularProgressIcon } from "../../common/ProgressIcon/CircularIcon";
-
 const styles = (theme) => ({
   googleBtn: {
     width: "250px",
