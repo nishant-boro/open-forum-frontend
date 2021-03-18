@@ -1,18 +1,18 @@
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: `${theme.spacing(3)}px 0px 1px`,
   },
   card: {
-    maxWidth: 600,
+    maxWidth: 1000,
     marginTop: "50px",
     margin: "auto",
     marginBottom: theme.spacing(3),
@@ -75,23 +75,25 @@ export default function CreatePostCard(props) {
             className={classes.textField}
             margin="normal"
           />
-          <input
-            accept="image/*"
-            onChange={handleChange("photo")}
-            className={classes.input}
-            id="icon-button-file"
-            type="file"
-          />
-          <label htmlFor="icon-button-file">
-            <IconButton
-              color="secondary"
-              className={classes.photoButton}
-              component="span"
-            >
-              <PhotoCamera />
-            </IconButton>
-          </label>{" "}
-          <span className={classes.filename}>{photo ? photo.name : ""}</span>
+          <div>
+            <input
+              accept="image/*"
+              onChange={handleChange("photo")}
+              className={classes.input}
+              id="icon-button-file"
+              type="file"
+            />
+            <label htmlFor="icon-button-file">
+              <IconButton
+                color="secondary"
+                className={classes.photoButton}
+                component="span"
+              >
+                <PhotoCamera />
+              </IconButton>
+            </label>{" "}
+            <span className={classes.filename}>{photo ? photo.name : ""}</span>
+          </div>
         </CardContent>
         <CardActions>
           <Button

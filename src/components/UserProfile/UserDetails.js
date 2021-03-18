@@ -83,7 +83,11 @@ export default function UserDetails(props) {
           name="photo"
           type="file"
         />
-        <IconButton style={{ maxWidth: 400 }} onClick={selectAndUpload}>
+        <IconButton
+          disabled={props.data._id !== props.loggedInUserId}
+          style={{ maxWidth: 400 }}
+          onClick={selectAndUpload}
+        >
           <Avatar
             src={props.data.photo}
             style={{
