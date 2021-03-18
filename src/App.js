@@ -63,6 +63,10 @@ function App() {
             <TrendingPosts />
           </Route>
 
+          <Route path="/not-found">
+            <PageNotFound />
+          </Route>
+
           <Route component={PageNotFound} />
         </Switch>
       </div>

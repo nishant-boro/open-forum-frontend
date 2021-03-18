@@ -11,8 +11,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 const styles = (theme) => ({
   title: {
-    marginTop: "10px",
-    color: theme.palette.openTitle,
+    paddingTop: "10px",
+    color: "#689690",
     textAlign: "center",
   },
   media: {
@@ -57,8 +57,13 @@ class TrendingPosts extends Component {
 
     return (
       <div>
-        <Typography variant="h4" className={classes.title}>
-          Trending Posts
+        <Typography
+          variant="subtitle1"
+          style={{ fontWeight: "bold", fontSize: "30px" }}
+          className={classes.title}
+          gutterBottom
+        >
+          TRENDING POSTS
         </Typography>
         <Snackbar
           style={{ height: "60%" }}

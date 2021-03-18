@@ -1,13 +1,13 @@
 import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
 import IconButton from "@material-ui/core/IconButton";
 import axios from "axios";
 import { Typography, Input } from "@material-ui/core";
-import Divider from "@material-ui/core/Divider";
 import Avatar from "@material-ui/core/Avatar";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
 
-const styles = {
+// @ts-ignore
+const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     maxWidth: 600,
@@ -38,9 +38,22 @@ const styles = {
   main: {
     margin: "20px 200px",
   },
-};
-
-const useStyles = makeStyles(styles);
+  grid: {
+    margin: `0 ${theme.spacing(2)}px`,
+  },
+  bigContainer: {
+    width: "80%",
+    margin: "0 auto",
+  },
+  paper: {
+    padding: theme.spacing(3),
+    textAlign: "left",
+    color: theme.palette.text.secondary,
+  },
+  topInfo: {
+    textAlign: "left",
+  },
+}));
 
 export default function UserDetails(props) {
   const classes = useStyles();
@@ -52,11 +65,9 @@ export default function UserDetails(props) {
 
       var form = new FormData();
       form.append("photo", file);
-      form.append("name", props.data.name);
-      form.append("email", props.data.email);
 
-      axios.put("/api/users/" + props.data._id, form).then((res) => {
-        console.log(res.data);
+      axios.put("/addphoto?id=" + props.data._id, form).then((res) => {
+        props.updateImage(res.data.Location);
       });
     };
     inputElement.click();
@@ -65,13 +76,18 @@ export default function UserDetails(props) {
   return (
     <div>
       <div style={{ width: "15%", margin: "0 auto" }}>
-        <Input
+        <input
           style={{ display: "none" }}
+          accept="image/*"
           id="photo"
           name="photo"
           type="file"
         />
-        <IconButton style={{ maxWidth: 400 }} onClick={selectAndUpload}>
+        <IconButton
+          disabled={props.data._id !== props.loggedInUserId}
+          style={{ maxWidth: 400 }}
+          onClick={selectAndUpload}
+        >
           <Avatar
             src={props.data.photo}
             style={{
@@ -83,62 +99,86 @@ export default function UserDetails(props) {
         </IconButton>
       </div>
 
-      <List
-        component="nav"
-        className={classes.root}
-        aria-label="mailbox folders"
-      >
-        <ListItem>
-          <Typography
-            variant="h5"
-            style={{ margin: "0 0 0 100px" }}
-            gutterBottom
-          >
-            Name: {props.data.name}
-          </Typography>
-        </ListItem>
-        <Divider />
-        <ListItem>
-          <Typography
-            variant="h5"
-            style={{ margin: "0 0 0 100px" }}
-            gutterBottom
-          >
-            Email: {props.data.email}
-          </Typography>
-        </ListItem>
-        <Divider />
-        <ListItem>
-          <Typography
-            variant="h5"
-            style={{ margin: "0 0 0 100px" }}
-            gutterBottom
-          >
-            Score: {props.data.score}
-          </Typography>
-        </ListItem>
-        <Divider />
-        <ListItem>
-          <Typography
-            variant="h5"
-            style={{ margin: "0 0 0 100px" }}
-            gutterBottom
-          >
-            Date of birth: {props.data.dob}
-          </Typography>
-        </ListItem>
-        <Divider />
-        <ListItem>
-          <Typography
-            variant="h5"
-            style={{ margin: "0 0 0 100px" }}
-            gutterBottom
-          >
-            Badge: {props.data.badge}
-          </Typography>
-        </ListItem>
-        <Divider />
-      </List>
+      <div className={classes.bigContainer}>
+        <Paper className={classes.paper}>
+          <div className={classes.topInfo}>
+            <Typography
+              variant="subtitle1"
+              style={{ fontWeight: "bold", fontSize: "30px" }}
+              gutterBottom
+            >
+              User Profile
+            </Typography>
+          </div>
+          <Grid style={{ marginTop: "20px" }} item container xs={12}>
+            <Grid item xs={6}>
+              <Typography
+                style={{ textTransform: "uppercase" }}
+                color="secondary"
+                gutterBottom
+              >
+                Username
+              </Typography>
+              <Typography variant="h5" gutterBottom>
+                {props.data.name}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography
+                style={{ textTransform: "uppercase" }}
+                color="secondary"
+                gutterBottom
+              >
+                Email
+              </Typography>
+              <Typography variant="h5" gutterBottom>
+                {props.data.email}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid style={{ marginTop: "20px" }} item container xs={12}>
+            <Grid item xs={6}>
+              <Typography
+                style={{ textTransform: "uppercase" }}
+                color="secondary"
+                gutterBottom
+              >
+                Score
+              </Typography>
+              <Typography variant="h5" gutterBottom>
+                {props.data.score}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography
+                style={{ textTransform: "uppercase" }}
+                color="secondary"
+                gutterBottom
+              >
+                Date of Birth
+              </Typography>
+              <Typography variant="h5" gutterBottom>
+                {props.data.dob}
+              </Typography>
+            </Grid>
+          </Grid>
+
+          <Grid style={{ marginTop: "20px" }} item container xs={12}>
+            <Grid item xs={6}>
+              <Typography
+                style={{ textTransform: "uppercase" }}
+                color="secondary"
+                gutterBottom
+              >
+                Badge
+              </Typography>
+              <Typography variant="h5" gutterBottom>
+                {props.data.badge}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Paper>
+      </div>
     </div>
   );
 }

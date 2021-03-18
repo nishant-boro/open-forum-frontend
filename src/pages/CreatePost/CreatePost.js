@@ -6,6 +6,10 @@ import axios from "axios";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Button from "@material-ui/core/Button";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -83,30 +87,45 @@ class CreatePost extends Component {
       this.setState({ isPosted: false });
     };
 
+    const handleDialogAction = (e) => {
+      if (e.target.innerHTML !== "Yes") {
+        this.props.history.push("/trending");
+      }
+      setIsPosted();
+    };
+
     return [
       <div>
         {this.state.loading ? <LinearProgress color="secondary" /> : ""}
       </div>,
-      <Snackbar
-        style={{ height: "16%" }}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
+      <Dialog
         open={this.state.isPosted}
-        autoHideDuration={4000}
-        onClose={setIsPosted}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
       >
         {!this.state.error ? (
-          <Alert severity="success">
-            Your post has been successfully created!
-          </Alert>
+          [
+            <Alert severity="success">
+              Your post has been successfully created!
+            </Alert>,
+            <DialogTitle id="alert-dialog-title">
+              {"Do you want to create another post?"}
+            </DialogTitle>,
+            <DialogActions>
+              <Button onClick={handleDialogAction} color="primary">
+                Yes
+              </Button>
+              <Button onClick={handleDialogAction} color="primary" autoFocus>
+                No, show me all the trending posts
+              </Button>
+            </DialogActions>,
+          ]
         ) : (
           <Alert severity="error">
-            There was a problem posting. Please try again.
+            There was a problem creating your new post. Please try again.
           </Alert>
         )}
-      </Snackbar>,
+      </Dialog>,
       <CreatePostCard
         handleChange={this.handleChange}
         title={this.state.title}

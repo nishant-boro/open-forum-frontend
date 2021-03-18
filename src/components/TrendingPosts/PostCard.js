@@ -11,15 +11,18 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import CommentIcon from "@material-ui/icons/Comment";
 import Divider from "@material-ui/core/Divider";
-import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Comments from "./Comments";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    maxWidth: 700,
+    maxWidth: 1300,
     margin: "auto",
     marginBottom: theme.spacing(3),
     backgroundColor: "rgba(0, 0, 0, 0.06)",
@@ -30,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
     padding: `${theme.spacing(2)}px 0px`,
   },
   cardHeader: {
+    height: "70px",
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
   },
@@ -41,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#f2f5f4",
   },
   media: {
-    height: "80%",
+    maxHeight: "700px",
     width: "100%",
   },
   button: {
@@ -62,6 +66,7 @@ export default function PostCard(props) {
     userLikedPost: props.auth.isAuthenticated && checkIfUserLikedPost(),
     likes: props.post.likes.length,
     comments: props.post.comments,
+    isDialogOn: false,
   });
 
   const redirectIfGuestUser = () => {
@@ -131,11 +136,23 @@ export default function PostCard(props) {
     return splittedDate[1] + " " + splittedDate[2] + ", " + splittedDate[3];
   };
 
+  const setDialogBoxState = () => {
+    setState({ ...state, isDialogOn: !state.isDialogOn });
+  };
+
+  const handleDialogAction = (e) => {
+    setDialogBoxState();
+    if (e.target.innerHTML === "Agree") {
+      deletePost();
+    }
+  };
+
   return (
     <Card className={classes.card}>
       <CardHeader
         avatar={
           <Avatar
+            style={{ height: "60px", width: "60px" }}
             src={
               props.post.postedBy.photo === "No image"
                 ? ""
@@ -145,7 +162,7 @@ export default function PostCard(props) {
         }
         action={
           props.post.postedBy._id === props.auth.user._id ? (
-            <IconButton onClick={deletePost}>
+            <IconButton onClick={setDialogBoxState}>
               <DeleteIcon />
             </IconButton>
           ) : (
@@ -169,14 +186,33 @@ export default function PostCard(props) {
         }
         className={classes.cardHeader}
       />
+      <Dialog
+        open={state.isDialogOn}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure you want to delete the post?"}
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={handleDialogAction} color="primary">
+            Disagree
+          </Button>
+          <Button onClick={handleDialogAction} color="primary" autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
       <CardContent style={{ paddingBottom: 0 }} className={classes.cardContent}>
         <Typography component="p" className={classes.text}>
           {props.post.text}
         </Typography>
-        {props.post.photo !== "No image" && (
+        {props.post.photo ? (
           <div className={classes.photo}>
             <img className={classes.media} src={props.post.photo} />
           </div>
+        ) : (
+          <div style={{ height: "2px" }}></div>
         )}
       </CardContent>
       <Divider />
