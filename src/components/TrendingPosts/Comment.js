@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import CardHeader from "@material-ui/core/CardHeader";
-import TextField from "@material-ui/core/TextField";
 import Avatar from "@material-ui/core/Avatar";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PropTypes from "prop-types";
@@ -48,24 +46,7 @@ export default function Comment(props) {
 
   const [state, setState] = useState({
     userLikedComment: props.auth.isAuthenticated && checkIfUserLikedComment(),
-    image: "",
   });
-
-  const fetchImage = () => {
-    const userId = props.comment.postedBy._id;
-    const avatarUrl = "/api/users/photo/" + userId;
-
-    axios
-      .get(avatarUrl, {
-        responseType: "arraybuffer",
-      })
-      .then((res) => {
-        const output = Buffer.from(res.data, "binary").toString("base64");
-        setState({ ...state, image: output });
-      });
-  };
-
-  fetchImage();
 
   const deleteComment = () => {
     if (!props.redirectIfGuestUser) {
@@ -78,7 +59,6 @@ export default function Comment(props) {
           comment: props.comment,
         })
         .then((res) => {
-          console.log(res.data);
           props.updateComments(res.data.comments);
         });
     }
@@ -88,6 +68,7 @@ export default function Comment(props) {
     if (!props.redirectIfGuestUser) {
       const userDetails = props.auth.user;
       const url = isLike ? "api/post/likeacomment" : "/api/post/unlikeacomment";
+      console.log(url);
 
       axios
         .put(url, {
@@ -97,6 +78,7 @@ export default function Comment(props) {
           comment: props.comment.text,
         })
         .then((res) => {
+          props.updateComments(res.data.comments);
           setState({
             ...state,
             userLikedComment: !state.userLikedComment,
@@ -117,7 +99,11 @@ export default function Comment(props) {
         <Grid item>
           <Avatar
             alt="Remy Sharp"
-            src={`data:image/jpeg;base64, state.image`}
+            src={
+              props.comment.postedBy.photo === "No image"
+                ? ""
+                : props.comment.postedBy.photo
+            }
           />
         </Grid>
         <Grid style={{ justifyContent: "left" }} item xs zeroMinWidth>

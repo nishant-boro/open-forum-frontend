@@ -19,12 +19,13 @@ import Comments from "./Comments";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    maxWidth: 600,
+    maxWidth: 700,
     margin: "auto",
     marginBottom: theme.spacing(3),
     backgroundColor: "rgba(0, 0, 0, 0.06)",
   },
   cardContent: {
+    paddingTop: "1px",
     backgroundColor: "white",
     padding: `${theme.spacing(2)}px 0px`,
   },
@@ -38,10 +39,10 @@ const useStyles = makeStyles((theme) => ({
   photo: {
     textAlign: "center",
     backgroundColor: "#f2f5f4",
-    padding: theme.spacing(1),
   },
   media: {
-    height: 200,
+    height: "80%",
+    width: "100%",
   },
   button: {
     margin: theme.spacing(1),
@@ -120,7 +121,7 @@ export default function PostCard(props) {
 
   const deletePost = () => {
     axios.delete(url + "/api/posts/" + props.post._id).then((res) => {
-      console.log(res);
+      window.location.reload();
     });
   };
 
@@ -134,7 +135,13 @@ export default function PostCard(props) {
     <Card className={classes.card}>
       <CardHeader
         avatar={
-          <Avatar src={url + "/api/users/photo/" + props.post.postedBy} />
+          <Avatar
+            src={
+              props.post.postedBy.photo === "No image"
+                ? ""
+                : props.post.postedBy.photo
+            }
+          />
         }
         action={
           props.post.postedBy._id === props.auth.user._id ? (
@@ -151,7 +158,7 @@ export default function PostCard(props) {
             <div>
               Author:{" "}
               <Link to={"/user/" + props.post.postedBy._id}>
-                {props.post.username}
+                {props.post.postedBy.name}
               </Link>
             </div>
             <div>
@@ -166,12 +173,9 @@ export default function PostCard(props) {
         <Typography component="p" className={classes.text}>
           {props.post.text}
         </Typography>
-        {props.post.photo && (
+        {props.post.photo !== "No image" && (
           <div className={classes.photo}>
-            <img
-              className={classes.media}
-              src={url + "/api/posts/photo/" + props.post._id}
-            />
+            <img className={classes.media} src={props.post.photo} />
           </div>
         )}
       </CardContent>
