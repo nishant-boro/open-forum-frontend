@@ -8,6 +8,7 @@ import PostCard from "../../components/TrendingPosts/PostCard";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import FollowPeople from "../../components/TrendingPosts/FollowPeople";
 
 const styles = (theme) => ({
   title: {
@@ -68,7 +69,7 @@ class TrendingPosts extends Component {
         <Snackbar
           style={{ height: "60%" }}
           anchorOrigin={{
-            vertical: "center",
+            vertical: "top",
             horizontal: "center",
           }}
           open={!this.state.loading && this.state.posts.length === 0}
@@ -81,18 +82,21 @@ class TrendingPosts extends Component {
         ) : (
           ""
         )}
-        <div style={{ marginTop: "24px" }}>
-          {this.state.posts &&
-            this.state.posts.map((item, i) => {
-              return (
-                <PostCard
-                  router={this.props.history}
-                  auth={this.props.auth}
-                  post={item}
-                  key={i}
-                />
-              );
-            })}
+        <div style={{ display: "flex" }}>
+          <div style={{ marginTop: "24px", flexBasis: "65%" }}>
+            {this.state.posts &&
+              this.state.posts.map((item, i) => {
+                return (
+                  <PostCard
+                    router={this.props.history}
+                    auth={this.props.auth}
+                    post={item}
+                    key={i}
+                  />
+                );
+              })}
+          </div>
+          <FollowPeople loggedInUser={this.props.auth.user} />
         </div>
       </div>
     );
