@@ -28,11 +28,12 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-class TrendingPosts extends Component {
+class DisplayPosts extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      type: props.type,
       posts: [],
       loading: false,
     };
@@ -40,8 +41,12 @@ class TrendingPosts extends Component {
 
   componentDidMount() {
     this.setState({ loading: true });
+    const url =
+      this.state.type === "feed"
+        ? "/api/posts/feed/" + this.props.auth.user._id
+        : "/trendingposts";
     axios
-      .get("/trendingposts")
+      .get(url)
       .then((res) => {
         this.setState({
           loading: false,
@@ -64,18 +69,22 @@ class TrendingPosts extends Component {
           className={classes.title}
           gutterBottom
         >
-          TRENDING POSTS
+          {this.state.type === "feed" ? "MY FEED" : "TRENDING POSTS"}
         </Typography>
         <Snackbar
-          style={{ height: "60%" }}
+          style={{ height: "80%", marginLeft: "20%" }}
           anchorOrigin={{
             vertical: "top",
-            horizontal: "center",
+            horizontal: "left",
           }}
           open={!this.state.loading && this.state.posts.length === 0}
           autoHideDuration={6000}
         >
-          <Alert severity="info">No posts found!</Alert>
+          <Alert severity="info">
+            {this.state.type === "feed"
+              ? "No posts found. Please follow someone to see their posts!"
+              : "No posts found!"}
+          </Alert>
         </Snackbar>
         {this.state.loading ? (
           <CircularProgress className={classes.circular} />
@@ -96,7 +105,14 @@ class TrendingPosts extends Component {
                 );
               })}
           </div>
-          <FollowPeople loggedInUser={this.props.auth.user} />
+          {!this.state.loading ? (
+            <FollowPeople
+              type={this.props.type}
+              loggedInUser={this.props.auth.user}
+            />
+          ) : (
+            ""
+          )}
         </div>
       </div>
     );
@@ -108,5 +124,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(
-  withStyles(styles)(withRouter(TrendingPosts))
+  withStyles(styles)(withRouter(DisplayPosts))
 );

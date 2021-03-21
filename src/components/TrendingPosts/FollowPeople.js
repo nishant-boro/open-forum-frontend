@@ -94,6 +94,9 @@ export default function FollowPeople(props) {
 
   const closeSnackBar = () => {
     setState({ ...state, openSnackBar: false });
+    if (props.type === "feed") {
+      window.location.reload();
+    }
   };
 
   return (
@@ -102,7 +105,7 @@ export default function FollowPeople(props) {
         <Typography variant="subtitle1" className={classes.title}>
           Follow Other Users
         </Typography>
-        <List style={{ marginBottom: "60px" }}>
+        <List>
           {state.usersToFollow.map((item, i) => {
             return (
               <span key={i}>
@@ -136,35 +139,38 @@ export default function FollowPeople(props) {
             );
           })}
         </List>
-        <Snackbar
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-          style={{
-            position: "absolute",
-            margin: "auto",
-          }}
-          open={state.openSnackBar}
-          onClose={closeSnackBar}
-          autoHideDuration={6000}
-        >
-          <Alert severity="success">{state.followMessage}</Alert>
-        </Snackbar>
-        <Snackbar
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-          style={{
-            position: "absolute",
-            margin: "auto",
-          }}
-          open={!state.loading && state.usersToFollow.length === 0}
-          onClose={closeSnackBar}
-        >
-          <Alert severity="info">No users found to follow</Alert>
-        </Snackbar>
+        <List style={{ marginTop: "15%" }}>
+          <Snackbar
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+            style={{
+              position: "absolute",
+            }}
+            open={state.openSnackBar}
+            onClose={closeSnackBar}
+            autoHideDuration={2000}
+          >
+            <Alert severity="success">{state.followMessage}</Alert>
+          </Snackbar>
+          <Snackbar
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+            style={{
+              position: "absolute",
+            }}
+            open={
+              !state.openSnackBar &&
+              !state.loading &&
+              state.usersToFollow.length === 0
+            }
+          >
+            <Alert severity="info">No more users found to follow</Alert>
+          </Snackbar>
+        </List>
       </Paper>
     </div>
   );
