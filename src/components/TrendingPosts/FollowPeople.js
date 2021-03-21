@@ -111,7 +111,7 @@ export default function FollowPeople(props) {
               <span key={i}>
                 <ListItem>
                   <ListItemAvatar className={classes.avatar}>
-                    <Avatar src={"/"} />
+                    <Avatar src={item.photo === "No image" ? "" : item.photo} />
                   </ListItemAvatar>
                   <ListItemText primary={item.name} />
                   <ListItemSecondaryAction className={classes.follow}>

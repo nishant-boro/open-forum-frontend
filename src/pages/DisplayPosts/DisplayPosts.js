@@ -40,6 +40,15 @@ class DisplayPosts extends Component {
   }
 
   componentDidMount() {
+    if (this.props.type === "feed" && !this.props.auth.isAuthenticated) {
+      this.props.history.push({
+        pathname: "/login",
+        state: {
+          message: "Please login to see your feed!",
+        },
+      });
+    }
+
     this.setState({ loading: true });
     const url =
       this.state.type === "feed"
@@ -91,8 +100,33 @@ class DisplayPosts extends Component {
         ) : (
           ""
         )}
-        <div style={{ display: "flex" }}>
-          <div style={{ marginTop: "24px", flexBasis: "65%" }}>
+
+        {this.props.auth.isAuthenticated ? (
+          <div style={{ display: "flex" }}>
+            <div style={{ marginTop: "24px", flexBasis: "65%" }}>
+              {this.state.posts &&
+                this.state.posts.map((item, i) => {
+                  return (
+                    <PostCard
+                      router={this.props.history}
+                      auth={this.props.auth}
+                      post={item}
+                      key={i}
+                    />
+                  );
+                })}
+            </div>
+            {!this.state.loading ? (
+              <FollowPeople
+                type={this.props.type}
+                loggedInUser={this.props.auth.user}
+              />
+            ) : (
+              ""
+            )}
+          </div>
+        ) : (
+          <div style={{ marginTop: "24px" }}>
             {this.state.posts &&
               this.state.posts.map((item, i) => {
                 return (
@@ -105,15 +139,7 @@ class DisplayPosts extends Component {
                 );
               })}
           </div>
-          {!this.state.loading ? (
-            <FollowPeople
-              type={this.props.type}
-              loggedInUser={this.props.auth.user}
-            />
-          ) : (
-            ""
-          )}
-        </div>
+        )}
       </div>
     );
   }
