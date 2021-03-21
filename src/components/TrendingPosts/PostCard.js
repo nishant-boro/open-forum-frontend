@@ -21,9 +21,15 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 const useStyles = makeStyles((theme) => ({
-  card: {
-    maxWidth: 1300,
+  cardAuth: {
+    marginLeft: "15%",
+    maxWidth: 1000,
+    marginBottom: theme.spacing(3),
+    backgroundColor: "rgba(0, 0, 0, 0.06)",
+  },
+  cardGuest: {
     margin: "auto",
+    maxWidth: 1000,
     marginBottom: theme.spacing(3),
     backgroundColor: "rgba(0, 0, 0, 0.06)",
   },
@@ -148,7 +154,11 @@ export default function PostCard(props) {
   };
 
   return (
-    <Card className={classes.card}>
+    <Card
+      className={
+        props.auth.isAuthenticated ? classes.cardAuth : classes.cardGuest
+      }
+    >
       <CardHeader
         avatar={
           <Avatar

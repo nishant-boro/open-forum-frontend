@@ -8,7 +8,7 @@ import setAuthToken from "./utils/setAuthToken";
 import jwtDecode from "jwt-decode";
 import { setCurrentUser, logoutUser } from "./actions/auth";
 import CreatePost from "./pages/CreatePost/CreatePost";
-import TrendingPosts from "./pages/TrendingPosts/TrendingPosts";
+import DisplayPosts from "./pages/DisplayPosts/DisplayPosts";
 import Leaderboard from "./pages/Leaderboard/Leaderboard";
 import UserProfile from "./pages/UserProfile/UserProfile";
 import PageNotFound from "./pages/Error/PageNotFound";
@@ -47,8 +47,8 @@ function App() {
             <CreatePost />
           </Route>
 
-          <Route path="/trending">
-            <TrendingPosts />
+          <Route key="trending" path="/trending">
+            <DisplayPosts type="trending" />
           </Route>
 
           <Route path="/leaderboard">
@@ -59,8 +59,12 @@ function App() {
             <UserProfile />
           </Route>
 
+          <Route key="my-feed" path="/feed">
+            <DisplayPosts type="feed" />
+          </Route>
+
           <Route path="/">
-            <TrendingPosts />
+            <DisplayPosts type="trending" />
           </Route>
 
           <Route path="/not-found">

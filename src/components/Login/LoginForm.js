@@ -115,7 +115,6 @@ const StyledLoginForm = (props) => {
           horizontal: "center",
         }}
         open={checkIfRouterMessageExists(props.routerMessage)}
-        close={true}
         autoHideDuration={6000}
       >
         <Alert severity="error">

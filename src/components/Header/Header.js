@@ -131,6 +131,17 @@ class Header extends Component {
       >
         User Profile
       </Button>,
+      <Button
+        {...{
+          key: "My feed",
+          color: "inherit",
+          to: "/feed",
+          className: menuButton,
+          component: RouterLink,
+        }}
+      >
+        My feed
+      </Button>,
     ];
   };
 
