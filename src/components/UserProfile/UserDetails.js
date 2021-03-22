@@ -161,7 +161,7 @@ export default function UserDetails(props) {
                 Date of Birth
               </Typography>
               <Typography variant="h5" gutterBottom>
-                {props.data.dob}
+                {props.data.dob || "N/A"}
               </Typography>
             </Grid>
           </Grid>

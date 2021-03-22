@@ -21,6 +21,12 @@ export default function LeaderTable(props) {
   const columns = [
     { field: "id", headerName: "ID", width: 70, hide: true },
     {
+      field: "rank",
+      headerName: "Rank",
+      sortable: false,
+      width: 400,
+    },
+    {
       field: "name",
       headerName: "Username",
       width: 400,
@@ -30,15 +36,6 @@ export default function LeaderTable(props) {
           <Link to={"/user/" + params.row.id}>{params.value}</Link>
         </strong>
       ),
-    },
-    {
-      field: "dob",
-      headerName: "Birthday",
-      valueFormatter: (params) => {
-        return formatDate(params.value);
-      },
-      sortable: false,
-      width: 400,
     },
     {
       field: "score",
@@ -55,6 +52,7 @@ export default function LeaderTable(props) {
   ];
 
   const filterRows = () => {
+    let count = 1;
     props.data.forEach((item) => {
       if (!item["id"]) {
         const res = Object.getOwnPropertyDescriptors(item)._id.value;
@@ -62,6 +60,11 @@ export default function LeaderTable(props) {
           value: res,
           writable: false,
         });
+        Object.defineProperty(item, "rank", {
+          value: count,
+          writable: false,
+        });
+        ++count;
         delete item["_id"];
       }
     });

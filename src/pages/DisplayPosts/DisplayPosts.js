@@ -100,22 +100,39 @@ class DisplayPosts extends Component {
                 : ""}
             </Alert>
           )}
-
-        <Snackbar
-          style={{ marginLeft: "20%", marginBottom: "30%" }}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left",
-          }}
-          open={!this.state.loading && this.state.posts.length === 0}
-          autoHideDuration={6000}
-        >
-          <Alert severity="info">
-            {this.state.type === "feed"
-              ? "No posts found. Please follow someone to see their posts!"
-              : "No posts found!"}
-          </Alert>
-        </Snackbar>
+        {this.props.auth.isAuthenticated ? (
+          <Snackbar
+            style={{ marginLeft: "20%", marginBottom: "30%" }}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            open={!this.state.loading && this.state.posts.length === 0}
+            autoHideDuration={6000}
+          >
+            <Alert severity="info">
+              {this.state.type === "feed"
+                ? "No posts found. Please follow someone to see their posts!"
+                : "No posts found!"}
+            </Alert>
+          </Snackbar>
+        ) : (
+          <Snackbar
+            style={{ marginLeft: "45%", marginBottom: "30%" }}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            open={!this.state.loading && this.state.posts.length === 0}
+            autoHideDuration={6000}
+          >
+            <Alert severity="info">
+              {this.state.type === "feed"
+                ? "No posts found. Please follow someone to see their posts!"
+                : "No posts found!"}
+            </Alert>
+          </Snackbar>
+        )}
 
         {this.state.loading ? (
           <CircularProgress className={classes.circular} />
