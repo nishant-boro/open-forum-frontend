@@ -129,7 +129,7 @@ class Header extends Component {
           component: RouterLink,
         }}
       >
-        User Profile
+        My Profile
       </Button>,
       <Button
         {...{

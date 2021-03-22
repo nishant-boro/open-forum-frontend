@@ -10,13 +10,16 @@ class Leaderboard extends Component {
 
     this.state = {
       data: [],
+      loading: false,
     };
   }
 
   componentDidMount() {
+    this.setState({ loading: true });
     axios
       .get("/leaderboard")
       .then((res) => {
+        this.setState({ loading: false });
         return this.setState({
           data: Array.isArray(res.data) ? res.data : [],
         });
@@ -28,7 +31,11 @@ class Leaderboard extends Component {
 
   render() {
     const { classes } = this.props;
-    return this.state.data ? <LeaderTable data={this.state.data} /> : "";
+    return this.state.data ? (
+      <LeaderTable isLoading={this.state.loading} data={this.state.data} />
+    ) : (
+      ""
+    );
   }
 }
 

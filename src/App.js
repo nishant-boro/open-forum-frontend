@@ -16,7 +16,13 @@ import PageNotFound from "./pages/Error/PageNotFound";
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   const decoded = jwtDecode(localStorage.jwtToken);
-  store.dispatch(setCurrentUser(decoded));
+  const user = {
+    ...decoded,
+    name: localStorage.userName,
+    email: localStorage.userEmail,
+    role: localStorage.userRole,
+  };
+  store.dispatch(setCurrentUser(user));
 
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
@@ -63,15 +69,15 @@ function App() {
             <DisplayPosts type="feed" />
           </Route>
 
-          <Route path="/">
+          <Route exact path="/">
             <DisplayPosts type="trending" />
           </Route>
+
+          <Route path="*" component={PageNotFound} />
 
           <Route path="/not-found">
             <PageNotFound />
           </Route>
-
-          <Route component={PageNotFound} />
         </Switch>
       </div>
     </div>

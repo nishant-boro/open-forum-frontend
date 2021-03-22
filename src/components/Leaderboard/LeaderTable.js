@@ -12,6 +12,12 @@ const useStyles = makeStyles((theme) => ({
 export default function LeaderTable(props) {
   const classes = useStyles();
 
+  const formatDate = (date) => {
+    const formattedDate = new Date(date).toDateString();
+    const splittedDate = formattedDate.split(" ");
+    return splittedDate[1] + " " + splittedDate[2];
+  };
+
   const columns = [
     { field: "id", headerName: "ID", width: 70, hide: true },
     {
@@ -27,7 +33,10 @@ export default function LeaderTable(props) {
     },
     {
       field: "dob",
-      headerName: "DOB",
+      headerName: "Birthday",
+      valueFormatter: (params) => {
+        return formatDate(params.value);
+      },
       sortable: false,
       width: 400,
     },
@@ -72,6 +81,7 @@ export default function LeaderTable(props) {
         },
       ]}
       rows={props.data}
+      loading={props.isLoading}
       columns={columns}
       pageSize={5}
       checkboxSelection={false}

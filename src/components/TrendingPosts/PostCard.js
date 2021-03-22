@@ -23,13 +23,13 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 const useStyles = makeStyles((theme) => ({
   cardAuth: {
     marginLeft: "15%",
-    maxWidth: 1000,
+    maxWidth: 950,
     marginBottom: theme.spacing(3),
     backgroundColor: "rgba(0, 0, 0, 0.06)",
   },
   cardGuest: {
     margin: "auto",
-    maxWidth: 1000,
+    maxWidth: 950,
     marginBottom: theme.spacing(3),
     backgroundColor: "rgba(0, 0, 0, 0.06)",
   },
@@ -171,6 +171,7 @@ export default function PostCard(props) {
           />
         }
         action={
+          props.auth.user.role === "Admin" ||
           props.post.postedBy._id === props.auth.user._id ? (
             <IconButton onClick={setDialogBoxState}>
               <DeleteIcon />

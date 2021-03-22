@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Component } from "react";
 import { registerUser } from "../../actions/auth";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 class Registration extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class Registration extends Component {
       dob: "",
       country: "",
       passwordRepeatedCorrectly: null,
+      isProcessing: false,
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -28,6 +30,7 @@ class Registration extends Component {
   }
 
   handleSubmit(e) {
+    this.setState({ isProcessing: true });
     e.preventDefault();
 
     const user = {
@@ -37,7 +40,10 @@ class Registration extends Component {
       dob: this.state.dob,
       country: this.state.country,
     };
-    this.props.registerUser(user, this.props.history);
+
+    this.props.registerUser(user, this.props.history).then((res) => {
+      this.setState({ isProcessing: false });
+    });
   }
 
   handleOnPasswordRepeatChange = (object) => {
@@ -69,16 +75,22 @@ class Registration extends Component {
   }
 
   render() {
-    return (
+    return [
+      <div style={{ marginBottom: 0 }}>
+        {this.state.isProcessing ? (
+          <LinearProgress style={{ marginBottom: 0 }} color="secondary" />
+        ) : (
+          ""
+        )}
+      </div>,
       <RegisterForm
         image={this.state.photo}
         onPasswordRepeatChange={this.handleOnPasswordRepeatChange}
         onInputChange={this.handleInputChange}
         onFormSubmit={this.handleSubmit}
         passwordRepeatedCorrectly={this.state.passwordRepeatedCorrectly}
-        isProcessing={this.props.isProcessing}
-      ></RegisterForm>
-    );
+      ></RegisterForm>,
+    ];
   }
 }
 

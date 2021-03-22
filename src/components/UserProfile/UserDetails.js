@@ -5,6 +5,7 @@ import { Typography, Input } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import FollowingDetails from "./FollowingDetails";
 
 // @ts-ignore
 const useStyles = makeStyles((theme) => ({
@@ -42,10 +43,12 @@ const useStyles = makeStyles((theme) => ({
     margin: `0 ${theme.spacing(2)}px`,
   },
   bigContainer: {
-    width: "80%",
+    display: "flex",
+    width: "90%",
     margin: "0 auto",
   },
   paper: {
+    width: "100%",
     padding: theme.spacing(3),
     textAlign: "left",
     color: theme.palette.text.secondary,
@@ -170,6 +173,34 @@ export default function UserDetails(props) {
                 color="secondary"
                 gutterBottom
               >
+                Followers
+              </Typography>
+              <Typography variant="h5" gutterBottom>
+                {props.data.followers ? props.data.followers.length : ""}
+              </Typography>
+            </Grid>
+
+            <Grid item xs={6}>
+              <Typography
+                style={{ textTransform: "uppercase" }}
+                color="secondary"
+                gutterBottom
+              >
+                Following
+              </Typography>
+              <Typography variant="h5" gutterBottom>
+                {props.data.following ? props.data.following.length : ""}
+              </Typography>
+            </Grid>
+          </Grid>
+
+          <Grid style={{ marginTop: "20px" }} item container xs={12}>
+            <Grid item xs={6}>
+              <Typography
+                style={{ textTransform: "uppercase" }}
+                color="secondary"
+                gutterBottom
+              >
                 Badge
               </Typography>
               <Typography variant="h5" gutterBottom>
@@ -178,6 +209,15 @@ export default function UserDetails(props) {
             </Grid>
           </Grid>
         </Paper>
+
+        {props.data._id === props.loggedInUserId ? (
+          <FollowingDetails
+            loggedInUserId={props.loggedInUserId}
+            users={props.data.following}
+          />
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

@@ -3,25 +3,52 @@ import { SET_CURRENT_USER } from "../constants/actionTypes";
 import setAuthToken from "../utils/setAuthToken";
 
 export const registerUser = (data, history) => (dispatch) => {
-  axios
+  return axios
     .post("/api/users", data)
-    .then((res) => history.push("/login"))
+    .then((res) =>
+      history.push({
+        pathname: "/login",
+        state: {
+          message: "Registration Successful. Please login to continue!",
+          type: "success",
+        },
+      })
+    )
     .catch((err) => {
       console.log(err);
     });
 };
 
-export const loginUser = (user) => (dispatch) => {
-  axios
+export const loginUser = (user, history) => (dispatch) => {
+  return axios
     .post("/auth/signin", user)
     .then((res) => {
       const { token } = res.data;
       localStorage.setItem("jwtToken", token);
+      localStorage.setItem("userRole", res.data.user.role);
+      localStorage.setItem("userName", res.data.user.name);
+      localStorage.setItem("userEmail", res.data.user.email);
       setAuthToken(token);
       dispatch(setCurrentUser(res.data.user));
     })
     .catch((err) => {
-      console.log(err);
+      if (err.response.status === 401) {
+        history.push({
+          pathname: "/login",
+          state: {
+            message: "Invalid credentials. Please try again!",
+            type: "error",
+          },
+        });
+      } else {
+        history.push({
+          pathname: "/login",
+          state: {
+            message: "Login failed. Please try again later!",
+            type: "error",
+          },
+        });
+      }
     });
 };
 

@@ -105,7 +105,7 @@ export default function FollowPeople(props) {
         <Typography variant="subtitle1" className={classes.title}>
           Follow Other Users
         </Typography>
-        <List>
+        <List style={{ overflowY: "auto", maxHeight: "500px" }}>
           {state.usersToFollow.map((item, i) => {
             return (
               <span key={i}>

@@ -5,6 +5,7 @@ import setAuthToken from "../../utils/setAuthToken";
 import { connect } from "react-redux";
 import { loginUser, loginUserGoogle, setCurrentUser } from "../../actions/auth";
 import jwt_decode from "jwt-decode";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 class Login extends Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
+      isProcessing: false,
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -31,12 +33,16 @@ class Login extends Component {
   }
 
   handleSubmit(e) {
+    this.setState({ isProcessing: true });
     e.preventDefault();
+
     const user = {
       email: this.state.email,
       password: this.state.password,
     };
-    this.props.loginUser(user);
+    this.props.loginUser(user, this.props.history).then((res) => {
+      this.setState({ isProcessing: false });
+    });
   }
 
   componentDidMount() {
@@ -58,15 +64,17 @@ class Login extends Component {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/");
     }
-    if (nextProps.errors) {
-      this.setState({
-        errors: nextProps.errors,
-      });
-    }
   }
 
   render() {
-    return (
+    return [
+      <div style={{ marginBottom: 0 }}>
+        {this.state.isProcessing ? (
+          <LinearProgress style={{ marginBottom: 0 }} color="secondary" />
+        ) : (
+          ""
+        )}
+      </div>,
       <LoginForm
         routerMessage={this.props.location.state}
         onInputChange={this.handleInputChange}
@@ -74,8 +82,8 @@ class Login extends Component {
         handleGoogleLogin={this.handleGoogleLogin}
         loginFailed={this.props.loginFailed}
         isLoading={this.props.isLoading}
-      />
-    );
+      />,
+    ];
   }
 }
 

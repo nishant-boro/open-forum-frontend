@@ -13,7 +13,6 @@ class UserProfile extends Component {
     };
 
     this.updateDataImage = this.updateDataImage.bind(this);
-    this.getLatestUserData = this.getLatestUserData.bind(this);
   }
 
   updateDataImage(location) {
@@ -23,26 +22,44 @@ class UserProfile extends Component {
     this.setState({ data: currData });
   }
 
-  getLatestUserData() {
-    axios.get("/api/users/" + this.props.match.params.id).then((res) => {
-      this.setState({ data: res.data });
-    });
-  }
-
   componentDidMount() {
     if (!this.props.auth.isAuthenticated) {
-      this.props.history.push("/login");
+      this.props.history.push({
+        pathname: "/login",
+        state: {
+          message: "Please login to view the user's profile!",
+          type: "error",
+        },
+      });
     }
 
     if (!this.props.match.params.id) {
       this.props.history.push("/not-found");
     }
 
-    this.getLatestUserData();
+    axios.get("/api/users/" + this.props.match.params.id).then((res) => {
+      this.setState({ data: res.data });
+    });
   }
 
   componentDidUpdate() {
-    this.getLatestUserData();
+    const newUserId = this.props.match.params.id;
+
+    if (!this.props.auth.isAuthenticated) {
+      this.props.history.push({
+        pathname: "/login",
+        state: {
+          message: "Please login to view the user's profile!",
+          type: "error",
+        },
+      });
+    }
+
+    if (newUserId !== this.state.data._id) {
+      axios.get("/api/users/" + newUserId).then((res) => {
+        this.setState({ data: res.data });
+      });
+    }
   }
 
   render() {
