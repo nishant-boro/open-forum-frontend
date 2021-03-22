@@ -23,6 +23,7 @@ function Alert(props) {
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
     position: "fixed",
+    marginLeft: "100px",
     marginTop: "24px",
     width: "500px",
     padding: theme.spacing(1),

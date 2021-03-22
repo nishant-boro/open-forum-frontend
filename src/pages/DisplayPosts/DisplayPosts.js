@@ -142,7 +142,7 @@ class DisplayPosts extends Component {
 
         {this.props.auth.isAuthenticated ? (
           <div style={{ display: "flex" }}>
-            <div style={{ marginTop: "24px", flexBasis: "65%" }}>
+            <div style={{ marginTop: "24px", width: "60%" }}>
               {this.state.posts &&
                 this.state.posts.map((item, i) => {
                   return (
