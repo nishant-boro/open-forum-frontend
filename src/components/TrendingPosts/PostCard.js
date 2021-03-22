@@ -22,7 +22,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 const useStyles = makeStyles((theme) => ({
   cardAuth: {
-    marginLeft: "15%",
+    marginLeft: "16%",
+    marginRight: 0,
     maxWidth: 900,
     marginBottom: theme.spacing(3),
     backgroundColor: "rgba(0, 0, 0, 0.06)",
