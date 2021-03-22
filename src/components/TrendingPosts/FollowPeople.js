@@ -23,11 +23,12 @@ function Alert(props) {
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
     position: "fixed",
-    marginLeft: "100px",
+    marginLeft: "80px",
+    marginRight: 0,
     marginTop: "24px",
-    width: "500px",
+    width: "100%",
+    maxWidth: "450px",
     padding: theme.spacing(1),
-    margin: 0,
   }),
   title: {
     margin: `${theme.spacing(3)}px ${theme.spacing(1)}px ${theme.spacing(2)}px`,
