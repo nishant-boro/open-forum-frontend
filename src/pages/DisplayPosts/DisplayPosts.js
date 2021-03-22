@@ -85,18 +85,21 @@ class DisplayPosts extends Component {
           {this.state.type === "feed" ? "MY FEED" : "TRENDING POSTS"}
         </Typography>
 
-        <Alert
-          severity="info"
-          classes={{
-            message: classes.message,
-            icon: classes.icon,
-          }}
-        >
-          {this.props.auth.isAuthenticated &&
-          this.props.auth.user.role === "Admin"
-            ? "You are logged in as an admin"
-            : ""}
-        </Alert>
+        {this.props.auth.isAuthenticated &&
+          this.props.auth.user.role === "Admin" && (
+            <Alert
+              severity="info"
+              classes={{
+                message: classes.message,
+                icon: classes.icon,
+              }}
+            >
+              {this.props.auth.isAuthenticated &&
+              this.props.auth.user.role === "Admin"
+                ? "You are logged in as an admin"
+                : ""}
+            </Alert>
+          )}
 
         <Snackbar
           style={{ marginLeft: "20%", marginBottom: "30%" }}
