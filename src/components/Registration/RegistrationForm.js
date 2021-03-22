@@ -90,6 +90,7 @@ const StyledRegisterForm = (props) => {
             <Input
               id="email"
               name="email"
+              type="email"
               autoComplete="email"
               onChange={onInputChange}
             />
@@ -149,6 +150,7 @@ const StyledRegisterForm = (props) => {
 
           <Button
             type="submit"
+            disabled={props.error !== ""}
             fullWidth
             variant="contained"
             color="primary"
