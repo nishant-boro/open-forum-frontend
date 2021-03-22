@@ -16,7 +16,13 @@ import PageNotFound from "./pages/Error/PageNotFound";
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   const decoded = jwtDecode(localStorage.jwtToken);
-  store.dispatch(setCurrentUser(decoded));
+  const user = {
+    ...decoded,
+    name: localStorage.userName,
+    email: localStorage.userEmail,
+    role: localStorage.userRole,
+  };
+  store.dispatch(setCurrentUser(user));
 
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {

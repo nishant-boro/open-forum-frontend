@@ -25,6 +25,9 @@ export const loginUser = (user, history) => (dispatch) => {
     .then((res) => {
       const { token } = res.data;
       localStorage.setItem("jwtToken", token);
+      localStorage.setItem("userRole", res.data.user.role);
+      localStorage.setItem("userName", res.data.user.name);
+      localStorage.setItem("userEmail", res.data.user.email);
       setAuthToken(token);
       dispatch(setCurrentUser(res.data.user));
     })

@@ -22,6 +22,10 @@ const styles = (theme) => ({
   circular: {
     margin: "10% 50%",
   },
+  icon: {
+    marginLeft: "44%",
+    marginRight: "13px",
+  },
 });
 
 function Alert(props) {
@@ -80,10 +84,24 @@ class DisplayPosts extends Component {
         >
           {this.state.type === "feed" ? "MY FEED" : "TRENDING POSTS"}
         </Typography>
+
+        <Alert
+          severity="info"
+          classes={{
+            message: classes.message,
+            icon: classes.icon,
+          }}
+        >
+          {this.props.auth.isAuthenticated &&
+          this.props.auth.user.role === "Admin"
+            ? "You are logged in as an admin"
+            : ""}
+        </Alert>
+
         <Snackbar
-          style={{ height: "80%", marginLeft: "20%" }}
+          style={{ marginLeft: "20%", marginBottom: "30%" }}
           anchorOrigin={{
-            vertical: "top",
+            vertical: "bottom",
             horizontal: "left",
           }}
           open={!this.state.loading && this.state.posts.length === 0}
@@ -95,6 +113,7 @@ class DisplayPosts extends Component {
               : "No posts found!"}
           </Alert>
         </Snackbar>
+
         {this.state.loading ? (
           <CircularProgress className={classes.circular} />
         ) : (
