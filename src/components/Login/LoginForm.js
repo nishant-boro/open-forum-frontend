@@ -60,7 +60,6 @@ const styles = (theme) => ({
     },
   },
   paper: {
-    marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -97,13 +96,7 @@ const checkIfRouterMessageExists = (router) => {
 };
 
 const StyledLoginForm = (props) => {
-  const {
-    classes,
-    onInputChange,
-    onFormSubmit,
-    isLoading,
-    handleGoogleLogin,
-  } = props;
+  const { classes, onInputChange, onFormSubmit, handleGoogleLogin } = props;
 
   return (
     <main className={classes.main}>
@@ -117,18 +110,14 @@ const StyledLoginForm = (props) => {
         open={checkIfRouterMessageExists(props.routerMessage)}
         autoHideDuration={6000}
       >
-        <Alert severity="error">
+        <Alert severity={props.routerMessage?.type || "error"}>
           {props.routerMessage ? props.routerMessage.message : ""}
         </Alert>
       </Snackbar>
       <Paper className={classes.paper}>
-        {isLoading ? (
-          "<CircularProgressIcon />"
-        ) : (
-          <Avatar className={classes.avatar}>
-            <LockIcon />
-          </Avatar>
-        )}
+        <Avatar className={classes.avatar}>
+          <LockIcon />
+        </Avatar>
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>

@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Component } from "react";
 import CreatePostCard from "../../components/CreatePost/CreatePostCard";
 import axios from "axios";
-import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Dialog from "@material-ui/core/Dialog";

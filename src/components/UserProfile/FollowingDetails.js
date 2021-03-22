@@ -90,39 +90,42 @@ export default function FollowingDetails(props) {
         >
           People I Follow
         </Typography>
-        <List>
-          {state.followedUsers.map((item, i) => {
-            return (
-              <span key={i}>
-                <ListItem>
-                  {/* <ListItemAvatar className={classes.avatar}>
-                    <Avatar src={item.photo === "No image" ? "" : item.photo} />
-                  </ListItemAvatar> */}
-                  <ListItemText primary={item.name} />
-                  <ListItemSecondaryAction className={classes.follow}>
-                    <Link to={"/user/" + item._id}>
-                      <IconButton
-                        color="secondary"
-                        className={classes.viewButton}
+        <List style={{ overflowY: "auto", maxHeight: "400px" }}>
+          {state.followedUsers &&
+            state.followedUsers.map((item, i) => {
+              return (
+                <span key={i}>
+                  <ListItem>
+                    <ListItemAvatar className={classes.avatar}>
+                      <Avatar
+                        src={item.photo === "No image" ? "" : item.photo}
+                      />
+                    </ListItemAvatar>
+                    <ListItemText primary={item.name} />
+                    <ListItemSecondaryAction className={classes.follow}>
+                      <Link to={"/user/" + item._id}>
+                        <IconButton
+                          color="secondary"
+                          className={classes.viewButton}
+                        >
+                          <ViewIcon />
+                        </IconButton>
+                      </Link>
+                      <Button
+                        aria-label="Follow"
+                        variant="contained"
+                        color="primary"
+                        onClick={() => {
+                          clickUnfollow(item, i);
+                        }}
                       >
-                        <ViewIcon />
-                      </IconButton>
-                    </Link>
-                    <Button
-                      aria-label="Follow"
-                      variant="contained"
-                      color="primary"
-                      onClick={() => {
-                        clickUnfollow(item, i);
-                      }}
-                    >
-                      Unfollow
-                    </Button>
-                  </ListItemSecondaryAction>
-                </ListItem>
-              </span>
-            );
-          })}
+                        Unfollow
+                      </Button>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                </span>
+              );
+            })}
         </List>
         <List style={{ marginTop: "15%" }}>
           <Snackbar
@@ -147,7 +150,7 @@ export default function FollowingDetails(props) {
             style={{
               position: "absolute",
             }}
-            open={!state.openSnackBar && state.followedUsers.length === 0}
+            open={!state.openSnackBar && state.followedUsers?.length === 0}
           >
             <Alert severity="info">You are not following anyone!</Alert>
           </Snackbar>

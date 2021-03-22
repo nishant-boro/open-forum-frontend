@@ -10,8 +10,7 @@ import {
 import Avatar from "@material-ui/core/Avatar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import LockIcon from "@material-ui/icons/LockOutlined";
-
-// import { CircularProgressIcon } from "../../common/ProgressIcon/CircularIcon";
+import TextField from "@material-ui/core/TextField";
 
 const styles = (theme) => ({
   main: {
@@ -26,7 +25,6 @@ const styles = (theme) => ({
     },
   },
   paper: {
-    marginTop: theme.spacing.unit * 8,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -55,7 +53,6 @@ const StyledRegisterForm = (props) => {
     onFormSubmit,
     onPasswordRepeatChange,
     passwordRepeatedCorrectly,
-    isProcessing,
   } = props;
 
   let passwordRepeatedFieldShouldError = false;
@@ -69,13 +66,9 @@ const StyledRegisterForm = (props) => {
     <main className={classes.main}>
       <CssBaseline />
       <Paper className={classes.paper}>
-        {isProcessing ? (
-          "<CircularProgressIcon />"
-        ) : (
-          <Avatar className={classes.avatar}>
-            <LockIcon />
-          </Avatar>
-        )}
+        <Avatar className={classes.avatar}>
+          <LockIcon />
+        </Avatar>
 
         <Typography component="h1" variant="h5">
           Sign up
@@ -102,15 +95,20 @@ const StyledRegisterForm = (props) => {
             />
           </FormControl>
 
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="dob">Date of Birth</InputLabel>
-            <Input
-              id="dob"
-              name="dob"
-              autoComplete="date of birth"
-              onChange={onInputChange}
-            />
-          </FormControl>
+          <TextField
+            required
+            fullWidth
+            margin="normal"
+            id="dob"
+            label="Date of Birth"
+            type="date"
+            onChange={onInputChange}
+            defaultValue="YYYY-MM-DD"
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
 
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="country">Country</InputLabel>

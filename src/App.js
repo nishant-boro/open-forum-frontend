@@ -63,15 +63,15 @@ function App() {
             <DisplayPosts type="feed" />
           </Route>
 
-          <Route path="/">
+          <Route exact path="/">
             <DisplayPosts type="trending" />
           </Route>
+
+          <Route path="*" component={PageNotFound} />
 
           <Route path="/not-found">
             <PageNotFound />
           </Route>
-
-          <Route component={PageNotFound} />
         </Switch>
       </div>
     </div>

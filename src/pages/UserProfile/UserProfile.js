@@ -24,7 +24,13 @@ class UserProfile extends Component {
 
   componentDidMount() {
     if (!this.props.auth.isAuthenticated) {
-      this.props.history.push("/login");
+      this.props.history.push({
+        pathname: "/login",
+        state: {
+          message: "Please login to view the user's profile!",
+          type: "error",
+        },
+      });
     }
 
     if (!this.props.match.params.id) {
@@ -38,6 +44,16 @@ class UserProfile extends Component {
 
   componentDidUpdate() {
     const newUserId = this.props.match.params.id;
+
+    if (!this.props.auth.isAuthenticated) {
+      this.props.history.push({
+        pathname: "/login",
+        state: {
+          message: "Please login to view the user's profile!",
+          type: "error",
+        },
+      });
+    }
 
     if (newUserId !== this.state.data._id) {
       axios.get("/api/users/" + newUserId).then((res) => {
