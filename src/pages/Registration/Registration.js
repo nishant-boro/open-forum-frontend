@@ -58,6 +58,14 @@ class Registration extends Component {
       return;
     }
 
+    if (e.target[4].value.length < 6) {
+      this.setState({
+        error: "Password should be equal to or more than 6 characters",
+        isProcessing: false,
+      });
+      return;
+    }
+
     const user = {
       name: this.state.name,
       email: this.state.email,
