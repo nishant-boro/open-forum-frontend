@@ -81,6 +81,7 @@ export default function LeaderTable(props) {
         },
       ]}
       rows={props.data}
+      loading={props.isLoading}
       columns={columns}
       pageSize={5}
       checkboxSelection={false}

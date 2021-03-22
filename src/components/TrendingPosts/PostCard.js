@@ -171,6 +171,7 @@ export default function PostCard(props) {
           />
         }
         action={
+          props.auth.user.role === "Admin" ||
           props.post.postedBy._id === props.auth.user._id ? (
             <IconButton onClick={setDialogBoxState}>
               <DeleteIcon />

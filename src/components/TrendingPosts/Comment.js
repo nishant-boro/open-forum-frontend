@@ -116,13 +116,14 @@ export default function Comment(props) {
               </p>
             </div>
             <div className={classes.alongComment}>
-              {props.auth.isAuthenticated &&
-                props.auth.user._id === props.comment.postedBy._id && (
-                  <DeleteIcon
-                    style={{ cursor: "pointer" }}
-                    onClick={deleteComment}
-                  />
-                )}
+              {((props.auth.isAuthenticated &&
+                props.auth.user._id === props.comment.postedBy._id) ||
+                props.auth.user.role === "Admin") && (
+                <DeleteIcon
+                  style={{ cursor: "pointer" }}
+                  onClick={deleteComment}
+                />
+              )}
             </div>
             <div className={classes.alongComment}>
               {state.userLikedComment ? (
